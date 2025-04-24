@@ -56,6 +56,7 @@ export class AgentPersuasiveCopy extends AIChatAgent<Env> {
 ${unstable_getSchedulePrompt({ date: new Date() })}
 
 If the user asks to schedule a task, use the schedule tool to schedule the task.
+If the user asks persuasive copy, use the copy tool to persuasive copy.
 `,
             messages: processedMessages,
             tools,

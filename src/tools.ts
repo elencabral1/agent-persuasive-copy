@@ -2,7 +2,7 @@
  * Tool definitions for the AI chat agent
  * Tools can either require human confirmation or execute automatically
  */
-import { tool } from "ai";
+import { streamText, tool } from "ai";
 import { z } from "zod";
 
 import { agentContext } from "./server";
@@ -10,6 +10,7 @@ import {
   unstable_getSchedulePrompt,
   unstable_scheduleSchema,
 } from "agents/schedule";
+import { openai } from "@ai-sdk/openai";
 
 /**
  * Weather information tool that requires human confirmation
@@ -21,6 +22,11 @@ const getWeatherInformation = tool({
   parameters: z.object({ city: z.string() }),
   // Omitting execute function makes this tool require human confirmation
 });
+
+const getPersuasiveCopy = tool({
+  description: "generate persuasive copy texts used in advertisements and marketing campaigns",
+  parameters: z.object({ prompt: z.string() }),
+})
 
 /**
  * Local time tool that executes automatically
@@ -124,6 +130,7 @@ const cancelScheduledTask = tool({
  */
 export const tools = {
   getWeatherInformation,
+  getPersuasiveCopy,
   getLocalTime,
   scheduleTask,
   getScheduledTasks,
@@ -140,4 +147,38 @@ export const executions = {
     console.log(`Getting weather information for ${city}`);
     return `The weather in ${city} is sunny`;
   },
+  getPersuasiveCopy: async ({ prompt }: { prompt: string }) => {
+    console.log(`Getting information for ${prompt}`);
+    const result = streamText({
+      model: openai("gpt-4o-mini"),
+      system: `Você é um redator publicitário especializado em marketing e copywriting. Gere textos persuasivos (copies) com base nas informações fornecidas a seguir.
+
+As copies devem ser criativas, envolventes e direcionadas ao público-alvo descrito. Foque em despertar o interesse, destacar a proposta de valor e incentivar a ação.
+
+Informações:
+"${prompt}"
+
+A resposta deve conter:
+1. Headline principal
+2. Subheadline complementar
+3. Texto para o corpo do anúncio (máximo 3 parágrafos curtos)
+4. Call to Action (CTA) impactante
+5. Versões alternativas de headline (2 variações)
+
+Formato da resposta:
+- Headline:
+- Subheadline:
+- Corpo do anúncio:
+- CTA:
+- Variações de headline:
+
+Use uma linguagem clara, objetiva e emocionalmente envolvente, adaptada ao público descrito.`,
+      prompt: `Crie uma copy persuasiva com base nas seguintes informações: ${prompt}`
+    });
+
+    await result.consumeStream();
+    const text = await result.text;
+    console.log("Resultado gerado:", text);
+    return text;
+  }
 };
