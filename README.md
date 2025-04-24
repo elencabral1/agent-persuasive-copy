@@ -1,3 +1,76 @@
+# Persuasive Copy Agent
+
+O **PersuasiveCopyAgent** é um agente de IA projetado para **gerar textos publicitários persuasivos** com base em informações fornecidas pelo usuário. Ele é ideal para redatores, equipes de marketing ou qualquer pessoa que deseje criar copies de alto impacto para anúncios, campanhas e comunicações promocionais.
+
+Este projeto utiliza o template **agents-starter**, a ferramenta `AIChatAgent` e o ecossistema da Cloudflare com suporte a **HTTP**.
+
+---
+
+## Objetivo do Projeto
+
+Este projeto foi criado com os seguintes objetivos:
+
+- Explorar o uso de **tools personalizadas** com o Agents SDK.
+- Criar uma ferramenta de geração de **copys persuasivas** usando o modelo GPT-4o da OpenAI.
+- Aprender a configurar agentes que **respondem via streaming**.
+- Automatizar a criação de textos publicitários com boa estrutura e gatilhos de conversão.
+
+---
+
+## Funcionalidades
+
+- Recebe um **briefing ou descrição de produto/serviço** como entrada.
+- Retorna uma **copy persuasiva completa**, incluindo:
+  - Headline principal
+  - Subheadline
+  - Corpo do anúncio (máx. 3 parágrafos curtos)
+  - Call to Action (CTA)
+  - 2 variações alternativas da headline
+
+---
+
+## Como funciona
+
+### Rodar o projeto no arquivo package.json. Clicar em 'start' dentro de 'scripts'. Mostrará um link, abrindo o link terá um chat, onde o usuário deverá mandar sua dúvida para que seja respondida
+
+Exemplo:
+```text
+Um aplicativo de controle financeiro para freelancers e autônomos, que ajuda a organizar receitas, despesas e metas de economia.
+```
+Resposta esperada:
+```text
+- Headline: Domine suas finanças como freelancer
+- Subheadline: Controle total de receitas, despesas e metas em um só app
+- Corpo do anúncio: Ser autônomo não significa viver no improviso. Com nosso aplicativo, você acompanha cada centavo, define metas realistas e transforma o caos financeiro em clareza. Desenvolvido especialmente para quem trabalha por conta própria, ele é o parceiro ideal na jornada pela liberdade financeira.
+
+Chega de planilhas confusas ou anotações perdidas. Automatize seu controle financeiro com praticidade e segurança.
+
+Comece hoje mesmo a tomar as rédeas do seu dinheiro!
+
+- CTA: Baixe agora e mude sua vida financeira!
+- Variações de headline:
+  1. Seu dinheiro sob controle, mesmo sendo autônomo
+  2. A ferramenta que faltava para freelancers organizarem suas finanças
+```
+
+## Configuração
+
+O projeto exige uma variável de ambiente com a chave da OpenAI:
+
+```text
+OPENAI_API_KEY=your_openai_key_here
+```
+
+## Tecnologias Utilizadas
+
+- Cloudflare Workers
+- Hono
+- Agents SDK
+- AIChatAgent
+- OpenAI API (GPT-4o)
+- TypeScript
+
+
 # 🤖 Chat Agent Starter Kit
 
 ![agents-header](https://github.com/user-attachments/assets/f6d99eeb-1803-4495-9c5e-3cf07a37b402)
